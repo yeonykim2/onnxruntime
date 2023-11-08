@@ -1,5 +1,5 @@
 message("Loading Dependencies URLs ...")
-
+include(external/OverridableFetchContent.cmake)
 include(external/helper_functions.cmake)
 
 file(STRINGS deps.txt ONNXRUNTIME_DEPS_LIST)
@@ -25,8 +25,8 @@ set(RE2_BUILD_TESTING OFF CACHE BOOL "" FORCE)
 
 FetchContent_Declare(
     re2
-    URL ${DEP_URL_re2}
-    URL_HASH SHA1=${DEP_SHA1_re2}
+    URL "${PROJECT_SOURCE_DIR}/packaging/re2.tar.gz" #${DEP_URL_re2}
+    # URL_HASH SHA1=${DEP_SHA1_re2}
     FIND_PACKAGE_ARGS NAMES re2
 )
 
@@ -157,16 +157,16 @@ endif()
 #1. if ONNX_CUSTOM_PROTOC_EXECUTABLE is set, build Protobuf from source, except protoc.exe. This mode is mainly
 #   for cross-compiling
 #2. if ONNX_CUSTOM_PROTOC_EXECUTABLE is not set, Compile everything(including protoc) from source code.
-if(Patch_FOUND)
-  set(ONNXRUNTIME_PROTOBUF_PATCH_COMMAND ${Patch_EXECUTABLE} --binary --ignore-whitespace -p1 < ${PROJECT_SOURCE_DIR}/patches/protobuf/protobuf_cmake.patch)
-else()
- set(ONNXRUNTIME_PROTOBUF_PATCH_COMMAND "")
-endif()
+# if(Patch_FOUND)
+#   set(ONNXRUNTIME_PROTOBUF_PATCH_COMMAND ${Patch_EXECUTABLE} --binary --ignore-whitespace -p1 < ${PROJECT_SOURCE_DIR}/patches/protobuf/protobuf_cmake.patch)
+# else()
+#  set(ONNXRUNTIME_PROTOBUF_PATCH_COMMAND "")
+# endif()
 
 FetchContent_Declare(
     utf8_range
-    URL ${DEP_URL_utf8_range}
-    URL_HASH SHA1=${DEP_SHA1_utf8_range}
+    URL "${PROJECT_SOURCE_DIR}/packaging/utf8_range.tar.gz" #${DEP_URL_utf8_range} utf8_range.tar.gz
+    # URL_HASH SHA1=${DEP_SHA1_utf8_range}
     FIND_PACKAGE_ARGS NAMES utf8_range
 )
 
@@ -177,8 +177,8 @@ set(utf8_range_ENABLE_INSTALL OFF CACHE BOOL "Configure installation" FORCE)
 #Protobuf depends on absl and utf8_range
 FetchContent_Declare(
   Protobuf
-  URL ${DEP_URL_protobuf}
-  URL_HASH SHA1=${DEP_SHA1_protobuf}
+  URL "${PROJECT_SOURCE_DIR}/packaging/protobuf.tar.gz" #${DEP_URL_protobuf} protobuf.tar.gz
+  # URL_HASH SHA1=${DEP_SHA1_protobuf}
   PATCH_COMMAND ${ONNXRUNTIME_PROTOBUF_PATCH_COMMAND}
   FIND_PACKAGE_ARGS 3.21.12 NAMES Protobuf
 )
@@ -207,16 +207,16 @@ set(USE_SYSTEM_TZ_DB  ON CACHE BOOL "" FORCE)
 
 FetchContent_Declare(
   date
-  URL ${DEP_URL_date}
-  URL_HASH SHA1=${DEP_SHA1_date}
+  URL "${PROJECT_SOURCE_DIR}/packaging/date.tar.gz" #${DEP_URL_date} 
+  # URL_HASH SHA1=${DEP_SHA1_date}
   FIND_PACKAGE_ARGS 3...<4 NAMES date
 )
 onnxruntime_fetchcontent_makeavailable(date)
 
 FetchContent_Declare(
   mp11
-  URL ${DEP_URL_mp11}
-  URL_HASH SHA1=${DEP_SHA1_mp11}
+  URL "${PROJECT_SOURCE_DIR}/packaging/mp11.tar.gz" #${DEP_URL_mp11}
+  # URL_HASH SHA1=${DEP_SHA1_mp11}
 )
 
 set(JSON_BuildTests OFF CACHE INTERNAL "")
@@ -226,8 +226,8 @@ set(JSON_Install OFF CACHE INTERNAL "")
 
 FetchContent_Declare(
     nlohmann_json
-    URL ${DEP_URL_json}
-    URL_HASH SHA1=${DEP_SHA1_json}
+    URL "${PROJECT_SOURCE_DIR}/packaging/nlohmann_json.tar.gz" #${DEP_URL_json}
+    # URL_HASH SHA1=${DEP_SHA1_json}
     FIND_PACKAGE_ARGS 3.10 NAMES nlohmann_json
 )
 
@@ -279,8 +279,8 @@ if ((CPUINFO_SUPPORTED OR onnxruntime_USE_XNNPACK) AND NOT ANDROID)
   set(CLOG_BUILD_TESTS OFF CACHE BOOL "" FORCE)
   FetchContent_Declare(
     pytorch_clog
-    URL ${DEP_URL_pytorch_cpuinfo}
-    URL_HASH SHA1=${DEP_SHA1_pytorch_cpuinfo}
+    URL "${PROJECT_SOURCE_DIR}/packaging/pytorch_clog.tar.gz" #${DEP_URL_pytorch_cpuinfo}
+    # URL_HASH SHA1=${DEP_SHA1_pytorch_cpuinfo}
 	SOURCE_SUBDIR deps/clog
   )
   set(ONNXRUNTIME_CLOG_PROJ pytorch_clog)
@@ -307,8 +307,8 @@ if (CPUINFO_SUPPORTED)
 
   FetchContent_Declare(
     pytorch_cpuinfo
-    URL ${DEP_URL_pytorch_cpuinfo}
-    URL_HASH SHA1=${DEP_SHA1_pytorch_cpuinfo}
+    URL "${PROJECT_SOURCE_DIR}/packaging/pytorch_cpuinfo.tar.gz" #${DEP_URL_pytorch_cpuinfo} 
+    # URL_HASH SHA1=${DEP_SHA1_pytorch_cpuinfo}
     FIND_PACKAGE_ARGS NAMES cpuinfo
   )
   set(ONNXRUNTIME_CPUINFO_PROJ pytorch_cpuinfo)
@@ -332,29 +332,29 @@ endif()
 if(onnxruntime_USE_CUDA)
   FetchContent_Declare(
     GSL
-    URL ${DEP_URL_microsoft_gsl}
-    URL_HASH SHA1=${DEP_SHA1_microsoft_gsl}
+    URL "${PROJECT_SOURCE_DIR}/packaging/gsl.tar.gz"# ${DEP_URL_microsoft_gsl} 
+    # URL_HASH SHA1=${DEP_SHA1_microsoft_gsl}
     PATCH_COMMAND ${Patch_EXECUTABLE} --binary --ignore-whitespace -p1 < ${PROJECT_SOURCE_DIR}/patches/gsl/1064.patch
   )
 else()
   FetchContent_Declare(
     GSL
-    URL ${DEP_URL_microsoft_gsl}
-    URL_HASH SHA1=${DEP_SHA1_microsoft_gsl}
+    URL "${PROJECT_SOURCE_DIR}/packaging/gsl.tar.gz" #${DEP_URL_microsoft_gsl}
+    # URL_HASH SHA1=${DEP_SHA1_microsoft_gsl}
     FIND_PACKAGE_ARGS 4.0 NAMES Microsoft.GSL
   )
 endif()
 
 FetchContent_Declare(
     safeint
-    URL ${DEP_URL_safeint}
-    URL_HASH SHA1=${DEP_SHA1_safeint}
+    URL "${PROJECT_SOURCE_DIR}/packaging/safeint.tar.gz" #${DEP_URL_safeint} #safeint.tar.gz
+    # URL_HASH SHA1=${DEP_SHA1_safeint}
 )
 
 # use fetch content rather than makeavailable because safeint only includes unconditional test targets
 FetchContent_Populate(safeint)
 # The next line will generate an error message "fatal: not a git repository", but it is ok. It is from flatbuffers
-onnxruntime_fetchcontent_makeavailable(utf8_range)
+# onnxruntime_fetchcontent_makeavailable(utf8_range)
 # protobuf's cmake/utf8_range.cmake has the following line
 include_directories(${utf8_range_SOURCE_DIR})
 
@@ -440,16 +440,16 @@ else()
   set(ONNX_USE_LITE_PROTO OFF CACHE BOOL "" FORCE)
 endif()
 
-if(Patch_FOUND)
-  set(ONNXRUNTIME_ONNX_PATCH_COMMAND ${Patch_EXECUTABLE} --binary --ignore-whitespace -p1 < ${PROJECT_SOURCE_DIR}/patches/onnx/onnx.patch)
-else()
-  set(ONNXRUNTIME_ONNX_PATCH_COMMAND "")
-endif()
+# if(Patch_FOUND)
+#   set(ONNXRUNTIME_ONNX_PATCH_COMMAND ${Patch_EXECUTABLE} --binary --ignore-whitespace -p1 < ${PROJECT_SOURCE_DIR}/patches/onnx/onnx.patch)
+# else()
+#   set(ONNXRUNTIME_ONNX_PATCH_COMMAND "")
+# endif()
 
 FetchContent_Declare(
   onnx
-  URL ${DEP_URL_onnx}
-  URL_HASH SHA1=${DEP_SHA1_onnx}
+  URL "${PROJECT_SOURCE_DIR}/packaging/onnx.tar.gz" #${DEP_URL_onnx}
+  # URL_HASH SHA1=${DEP_SHA1_onnx}
   PATCH_COMMAND ${ONNXRUNTIME_ONNX_PATCH_COMMAND}
 )
 

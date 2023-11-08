@@ -24,8 +24,8 @@ endif()
 # that namespace at build time.
 FetchContent_Declare(
     abseil_cpp
-    URL ${DEP_URL_abseil_cpp}
-    URL_HASH SHA1=${DEP_SHA1_abseil_cpp}
+    URL "${PROJECT_SOURCE_DIR}/packaging/abseil_cpp.tar.gz"
+    # URL_HASH SHA1=${DEP_SHA1_abseil_cpp}
     PATCH_COMMAND ${ABSL_PATCH_COMMAND}
     FIND_PACKAGE_ARGS NAMES absl
 )
