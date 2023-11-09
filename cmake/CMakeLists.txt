@@ -38,7 +38,6 @@ include(CheckLanguage)
 include(CMakeDependentOption)
 include(FetchContent)
 include(CheckFunctionExists)
-include(external/OverridableFetchContent.cmake)
 
 # TODO: update this once all system adapt c++20
 if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")

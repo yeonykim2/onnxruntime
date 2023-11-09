@@ -1,5 +1,4 @@
 message("Loading Dependencies URLs ...")
-include(external/OverridableFetchContent.cmake)
 include(external/helper_functions.cmake)
 
 file(STRINGS deps.txt ONNXRUNTIME_DEPS_LIST)
