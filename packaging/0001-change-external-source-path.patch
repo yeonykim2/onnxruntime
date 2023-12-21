@@ -1,0 +1,199 @@
+diff --git a/cmake/external/abseil-cpp.cmake b/cmake/external/abseil-cpp.cmake
+index 54d2f9c5c1..1dd6e47485 100644
+--- a/cmake/external/abseil-cpp.cmake
++++ b/cmake/external/abseil-cpp.cmake
+@@ -19,8 +19,9 @@ endif()
+ # that namespace at build time.
+ FetchContent_Declare(
+     abseil_cpp
+-    URL ${DEP_URL_abseil_cpp}
+-    URL_HASH SHA1=${DEP_SHA1_abseil_cpp}
++    URL "${PROJECT_SOURCE_DIR}/external/abseil-cpp.tar.gz"
++    # URL ${DEP_URL_abseil_cpp}
++    # URL_HASH SHA1=${DEP_SHA1_abseil_cpp}
+     PATCH_COMMAND ${ABSL_PATCH_COMMAND}
+ )
+ 
+diff --git a/cmake/external/eigen.cmake b/cmake/external/eigen.cmake
+index c0f7ddc50e..b445b652bb 100644
+--- a/cmake/external/eigen.cmake
++++ b/cmake/external/eigen.cmake
+@@ -7,15 +7,17 @@ else ()
+     if (onnxruntime_USE_ACL)
+         FetchContent_Declare(
+             eigen
+-            URL ${DEP_URL_eigen}
+-            URL_HASH SHA1=${DEP_SHA1_eigen}
++            URL "${PROJECT_SOURCE_DIR}/external/eigen-3.4.1.tar.gz"
++            # URL ${DEP_URL_eigen}
++            # URL_HASH SHA1=${DEP_SHA1_eigen}
+             PATCH_COMMAND ${Patch_EXECUTABLE} --ignore-space-change --ignore-whitespace < ${PROJECT_SOURCE_DIR}/patches/eigen/Fix_Eigen_Build_Break.patch
+         )
+     else()
+         FetchContent_Declare(
+             eigen
+-            URL ${DEP_URL_eigen}
+-            URL_HASH SHA1=${DEP_SHA1_eigen}
++            URL "${PROJECT_SOURCE_DIR}/external/eigen-3.4.1.tar.gz"
++            # URL ${DEP_URL_eigen}
++            # URL_HASH SHA1=${DEP_SHA1_eigen}
+         )
+     endif()
+     FetchContent_Populate(eigen)
+diff --git a/cmake/external/onnxruntime_external_deps.cmake b/cmake/external/onnxruntime_external_deps.cmake
+index 8e412c7847..86da436632 100644
+--- a/cmake/external/onnxruntime_external_deps.cmake
++++ b/cmake/external/onnxruntime_external_deps.cmake
+@@ -26,8 +26,9 @@ endif()
+ set(RE2_BUILD_TESTING OFF CACHE BOOL "" FORCE)
+ FetchContent_Declare(
+     re2
+-    URL ${DEP_URL_re2}
+-    URL_HASH SHA1=${DEP_SHA1_re2}
++    URL "${PROJECT_SOURCE_DIR}/external/re2.tar.gz"
++    # URL ${DEP_URL_re2}
++    # URL_HASH SHA1=${DEP_SHA1_re2}
+     FIND_PACKAGE_ARGS NAMES re2
+ )
+ 
+@@ -67,8 +68,9 @@ endif()
+ if (NOT WIN32)
+     FetchContent_Declare(
+     google_nsync
+-    URL ${DEP_URL_google_nsync}
+-    URL_HASH SHA1=${DEP_SHA1_google_nsync}
++    URL "${PROJECT_SOURCE_DIR}/external/google_nsync.tar.gz"
++    # URL ${DEP_URL_google_nsync}
++    # URL_HASH SHA1=${DEP_SHA1_google_nsync}
+     FIND_PACKAGE_ARGS NAMES nsync
+     )
+ endif()
+@@ -76,8 +78,9 @@ list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/external)
+ 
+ FetchContent_Declare(
+       mimalloc
+-      URL ${DEP_URL_mimalloc}
+-      URL_HASH SHA1=${DEP_SHA1_mimalloc}
++      URL "${PROJECT_SOURCE_DIR}/external/mimalloc.tar.gz"
++      # URL ${DEP_URL_mimalloc}
++      # URL_HASH SHA1=${DEP_SHA1_mimalloc}
+ )
+ 
+ 
+@@ -100,8 +103,9 @@ endif()
+ #flatbuffers 1.11.0 does not have flatbuffers::IsOutRange, therefore we require 1.12.0+
+ FetchContent_Declare(
+     flatbuffers
+-    URL ${DEP_URL_flatbuffers}
+-    URL_HASH SHA1=${DEP_SHA1_flatbuffers}
++    URL "${PROJECT_SOURCE_DIR}/external/flatbuffers.tar.gz"
++    # URL ${DEP_URL_flatbuffers}
++    # URL_HASH SHA1=${DEP_SHA1_flatbuffers}
+     PATCH_COMMAND ${ONNXRUNTIME_FLATBUFFERS_PATCH_COMMAND}
+     FIND_PACKAGE_ARGS 1.12.0...<2.0.0 NAMES Flatbuffers
+ )
+@@ -163,8 +167,9 @@ else()
+ endif()
+ FetchContent_Declare(
+   Protobuf
+-  URL ${DEP_URL_protobuf}
+-  URL_HASH SHA1=${DEP_SHA1_protobuf}
++  URL "${PROJECT_SOURCE_DIR}/external/protobuf.tar.gz"
++  # URL ${DEP_URL_protobuf}
++  # URL_HASH SHA1=${DEP_SHA1_protobuf}
+   PATCH_COMMAND ${ONNXRUNTIME_PROTOBUF_PATCH_COMMAND}
+   FIND_PACKAGE_ARGS 3.21.12 NAMES Protobuf
+ )
+@@ -185,8 +190,9 @@ set(USE_SYSTEM_TZ_DB  ON CACHE BOOL "" FORCE)
+ 
+ FetchContent_Declare(
+       date
+-      URL ${DEP_URL_date}
+-      URL_HASH SHA1=${DEP_SHA1_date}
++      URL "${PROJECT_SOURCE_DIR}/external/date.tar.gz"
++      # URL ${DEP_URL_date}
++      # URL_HASH SHA1=${DEP_SHA1_date}
+     )
+ onnxruntime_fetchcontent_makeavailable(date)
+ 
+@@ -194,8 +200,9 @@ onnxruntime_fetchcontent_makeavailable(date)
+ 
+ FetchContent_Declare(
+   mp11
+-  URL ${DEP_URL_mp11}
+-  URL_HASH SHA1=${DEP_SHA1_mp11}
++  URL "${PROJECT_SOURCE_DIR}/external/mp11.tar.gz"
++  # URL ${DEP_URL_mp11}
++  # URL_HASH SHA1=${DEP_SHA1_mp11}
+ )
+ 
+ set(JSON_BuildTests OFF CACHE INTERNAL "")
+@@ -205,8 +212,9 @@ set(JSON_Install OFF CACHE INTERNAL "")
+ 
+ FetchContent_Declare(
+     nlohmann_json
+-    URL ${DEP_URL_json}
+-    URL_HASH SHA1=${DEP_SHA1_json}
++    URL "${PROJECT_SOURCE_DIR}/external/nlohmann_json.tar.gz"
++    # URL ${DEP_URL_json}
++    # URL_HASH SHA1=${DEP_SHA1_json}
+     FIND_PACKAGE_ARGS 3.10 NAMES nlohmann_json
+ )
+ 
+@@ -272,8 +280,9 @@ if (CPUINFO_SUPPORTED)
+ 
+   FetchContent_Declare(
+     pytorch_cpuinfo
+-    URL ${DEP_URL_pytorch_cpuinfo}
+-    URL_HASH SHA1=${DEP_SHA1_pytorch_cpuinfo}
++    URL "${PROJECT_SOURCE_DIR}/external/pytorch_cpuinfo.tar.gz"
++    # URL ${DEP_URL_pytorch_cpuinfo}
++    # URL_HASH SHA1=${DEP_SHA1_pytorch_cpuinfo}
+     FIND_PACKAGE_ARGS NAMES cpuinfo
+   )
+ 
+@@ -297,23 +306,26 @@ endif()
+ if(onnxruntime_USE_CUDA)
+   FetchContent_Declare(
+     GSL
+-    URL ${DEP_URL_microsoft_gsl}
+-    URL_HASH SHA1=${DEP_SHA1_microsoft_gsl}
++    URL "${PROJECT_SOURCE_DIR}/external/microsoft_gsl.tar.gz"
++    # URL ${DEP_URL_microsoft_gsl}
++    # URL_HASH SHA1=${DEP_SHA1_microsoft_gsl}
+     PATCH_COMMAND ${Patch_EXECUTABLE} --binary --ignore-whitespace -p1 < ${PROJECT_SOURCE_DIR}/patches/gsl/1064.patch
+   )
+ else()
+   FetchContent_Declare(
+     GSL
+-    URL ${DEP_URL_microsoft_gsl}
+-    URL_HASH SHA1=${DEP_SHA1_microsoft_gsl}
++    URL "${PROJECT_SOURCE_DIR}/external/microsoft_gsl.tar.gz"
++    # URL ${DEP_URL_microsoft_gsl}
++    # URL_HASH SHA1=${DEP_SHA1_microsoft_gsl}
+     FIND_PACKAGE_ARGS 4.0 NAMES Microsoft.GSL
+   )
+ endif()
+ 
+ FetchContent_Declare(
+     safeint
+-    URL ${DEP_URL_safeint}
+-    URL_HASH SHA1=${DEP_SHA1_safeint}
++    URL "${PROJECT_SOURCE_DIR}/external/safeint.tar.gz"
++    # URL ${DEP_URL_safeint}
++    # URL_HASH SHA1=${DEP_SHA1_safeint}
+ )
+ 
+ # The next line will generate an error message "fatal: not a git repository", but it is ok. It is from flatbuffers
+@@ -407,8 +419,9 @@ endif()
+ 
+ FetchContent_Declare(
+   onnx
+-  URL ${DEP_URL_onnx}
+-  URL_HASH SHA1=${DEP_SHA1_onnx}
++  URL "${PROJECT_SOURCE_DIR}/external/onnx.tar.gz"
++  # URL ${DEP_URL_onnx}
++  # URL_HASH SHA1=${DEP_SHA1_onnx}
+   PATCH_COMMAND ${ONNXRUNTIME_ONNX_PATCH_COMMAND}
+ )
+ 
