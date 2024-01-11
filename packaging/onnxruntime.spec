@@ -23,6 +23,7 @@ Source2014:     safeint.tar.gz
 
 Source10001:    0001-change-external-source-path.patch
 Source10002:    0002-change-cmakelists-patch.patch
+Source10003:    0003-add-riscv-atomic-link-cmakelist.patch
 
 BuildRequires: cmake
 BuildRequires: ninja
@@ -48,6 +49,7 @@ ONNX Runtime development headers and object file
 cp %{SOURCE1001} .
 patch -p1 < %{SOURCE10001}
 patch -p1 < %{SOURCE10002}
+patch -p1 < %{SOURCE10003}
 
 mkdir -p cmake/external
 pushd cmake/external
