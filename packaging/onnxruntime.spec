@@ -9,7 +9,7 @@ Source1002:     libonnxruntime.pc.in
 Source2001:     abseil-cpp.tar.gz
 Source2002:     date.tar.gz
 Source2003:     eigen-3.4.1.tar.gz
-Source2004:     flatbuffers.tar.gz
+Source2004:     flatbuffers-1.12.0-Wno-implicit-fallthrough.tar.gz
 Source2005:     google_nsync.tar.gz
 Source2006:     microsoft_gsl.tar.gz
 Source2007:     mimalloc.tar.gz
