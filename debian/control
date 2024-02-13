@@ -1,0 +1,25 @@
+### PPA does NOT use this file!  ###
+### Rule file will override!     ###
+Source: onnxruntime
+Section: libs
+Priority: optional
+Maintainer: Suyeon Kim <suyeon5.kim@samsung.com>
+Build-Depends:
+ build-essential, python3, ninja-build, zlib1g-dev,
+ debhelper (>=9), cmake (>=3.25),
+ gcc-11 | gcc-10 | gcc-9,
+ g++-11 | g++-10 | g++-9,
+Standards-Version: 1.16.3
+Homepage: https://github.com/microsoft/onnxruntime
+
+Package: onnxruntime
+Architecture: any
+Multi-Arch: same
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: ONNX Runtime package
+
+Package: onnxruntime-dev
+Architecture: any
+Multi-Arch: same
+Depends: ${shlibs:Depends}, ${misc:Depends}, onnxruntime (= ${binary:Version})
+Description: ONNX Runtime Development package

@@ -1,0 +1,4 @@
+/usr/include/onnxruntime/*
+/usr/lib/pkgconfig/libonnxruntime.pc
+/usr/lib/*.so
+/usr/lib/cmake/*

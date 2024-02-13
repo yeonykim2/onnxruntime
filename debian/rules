@@ -1,0 +1,51 @@
+#!/usr/bin/make -f
+export BUILDDIR=build
+export DEB_HOST_ARCH ?= $(shell dpkg-architecture -qDEB_HOST_ARCH)
+
+_libdir ?= /usr/lib
+_includedir ?= /usr/include
+
+ifeq ($(DEB_HOST_ARCH), arm64)
+EXTRA_CFLAGS = -funsafe-math-optimizations
+EXTRA_CXXFLAGS = -funsafe-math-optimizations
+endif
+
+ifeq ($(DEB_HOST_ARCH), armhf)
+EXTRA_CFLAGS = -funsafe-math-optimizations -mfp16-format=ieee
+EXTRA_CXXFLAGS = -funsafe-math-optimizations -mfp16-format=ieee
+endif
+
+%:
+	dh $@ --parallel
+
+override_dh_auto_configure:
+	patch -p1 < ./packaging/0001-change-external-source-path.patch
+	patch -p1 < ./packaging/0002-change-cmakelists-patch.patch
+	patch -p1 < ./packaging/0003-add-riscv-atomic-link-cmakelist.patch
+
+	cp ./packaging/*.tar.gz ./cmake/external/
+	cp ./packaging/libonnxruntime.pc.in ./cmake
+	sed -i 's:@libdir@:${_libdir}:g' ./cmake/libonnxruntime.pc.in
+	sed -i 's:@includedir@:${_includedir}/onnxruntime/:g' ./cmake/libonnxruntime.pc.in
+
+	mkdir -p $(BUILDDIR)
+	cd $(BUILDDIR) && cmake \
+	-DCMAKE_VERBOSE_MAKEFILE=ON \
+	-DCMAKE_BUILD_TYPE=Release \
+	-GNinja \
+	-DCMAKE_C_FLAGS="${EXTRA_CFLAGS}" \
+	-DCMAKE_CXX_FLAGS="${EXTRA_CXXFLAGS}" \
+	-Donnxruntime_BUILD_SHARED_LIB=ON \
+	-Donnxruntime_BUILD_UNIT_TESTS=OFF \
+	../cmake
+
+override_dh_auto_build:
+	cd $(BUILDDIR) && \
+		cmake --build .
+
+override_dh_auto_install:
+	cd $(BUILDDIR) && \
+		DESTDIR=$(CURDIR)/debian/tmp cmake --install . --prefix /usr
+
+override_dh_auto_clean:
+	rm -rf $(BUILDDIR)
